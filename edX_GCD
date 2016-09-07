@@ -1,0 +1,17 @@
+def iterGcd(a,b):
+    if a>b:
+        kSmall = b
+        kBig = a
+        kOldSmall = b
+    else:
+        kSmall = a
+        kBig = b
+        kOldSmall = a
+
+    while kSmall > 1:
+        if kBig % kSmall == 0:
+            if kOldSmall % kSmall == 0:
+                return kSmall
+        print kBig,"%",kSmall,"=", kBig % kSmall
+        kSmall -= 1
+    return kSmall
