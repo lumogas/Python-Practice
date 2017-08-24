@@ -1,0 +1,25 @@
+from pymel.core import *
+import maya.mel as mel
+
+#menu items - what can be shown?
+kkPanelItems =  ["qpo","nurbsCurves", "nurbsSurfaces", "polymeshes" , 
+                "subdivSurfaces", "planes", "lights", "cameras", "joints", 
+                "ikHandles", "deformers","dynamics", "fluids", "hairSystems",
+                "follicles", "nCloths", "nRigids","dynamicConstraints", 
+                "locators", "dimensions", "pivots", "handles","textures", 
+                "strokes", "manipulators", "cv", "hulls", "grid", "hud", 
+                "sel"]
+
+#menu items - what should be shown?
+kkValidItems = ["polymeshes"]
+
+kkStatusList = []
+                
+kkCurrentPanel = getPanel(wf=True)
+
+#record all the display status for each item in the list
+for kkItem in kkPanelItems:
+    z = 'modelEditor( kkCurrentPanel, query = True, ' + 
+    kkItem + '= True )'
+    kkStatusList.append(eval(z))
+
