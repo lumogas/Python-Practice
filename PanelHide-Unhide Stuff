@@ -1,6 +1,8 @@
 from pymel.core import *
 import maya.mel as mel
 
+kkCount = 0
+
 #menu items - what can be shown?
 kkPanelItems =  ["qpo","nurbsCurves", "nurbsSurfaces", "polymeshes" , 
                 "subdivSurfaces", "planes", "lights", "cameras", "joints", 
@@ -19,7 +21,21 @@ kkCurrentPanel = getPanel(wf=True)
 
 #record all the display status for each item in the list
 for kkItem in kkPanelItems:
-    z = 'modelEditor( kkCurrentPanel, query = True, ' + 
-    kkItem + '= True )'
+    z = 'modelEditor( kkCurrentPanel, query = True, ' + kkItem + '= True )'
     kkStatusList.append(eval(z))
 
+modelEditor( kkCurrentPanel, edit = True, alo = False )
+modelEditor( kkCurrentPanel, edit = True, polymeshes = True )
+
+playblast()
+
+for kkItem in kkStatusList:
+    kkStatus = str(kkStatusList[kkCount])
+    z = 'modelEditor( kkCurrentPanel, edit = True, ' + kkStatus + '= ' + kkStatus  + ' )'
+    print z
+    eval(z)
+    kkCount += 1
+
+
+#Gives error: # Error: TypeError: file /Volumes/Projects/Production/packages/software/maya/2016.6/bin/linux/lib/python2.7/site-packages/pymel/internal/pmcmds.py line 133: Invalid flag 'True'
+#Might be the qpo?
