@@ -8,6 +8,11 @@ import maya.mel as mel
 # Mel command to query gpu caches... 
 # modelEditor -q -queryPluginObjects gpuCacheDisplayFilter modelPanel4;
 
+# Python command that turns on the caches
+# modelEditor( modelPanel='modelPanel4', 
+# pluginObjects= ['gpuCacheDisplayFilter', True] )
+
+
 #First, the variables
 kkCount = 0
 
