@@ -53,7 +53,7 @@ def kkGetVars():
 
     # output Path
     splitPath     = kkCurrentScene.split("/")
-    joinPath      = "/".join(splitPath[0:7])
+    joinPath      = "/".join(splitPath[0:7]) # path up to shot folder
     pathOutput = ('%s/Publish/%s/%s/Media/' 
                   % (joinPath, kkStageNameCap, kkVersionNumber))
     pathSceneOutput = ('%s/Publish/%s/%s/Scenes/' 
@@ -224,6 +224,15 @@ def kkBlast():
 
     kkRunDict(kkBlastHudSettings) # Show frame number and focal length
     kkGroupName = kkCreateText() # put in the name and artist
+    
+    # create and assign a white surface shader to the geo to make it visible
+    kkShaderName = "%s_shader" % (kkGroupName)
+    kkShader = shadingNode('surfaceShader', n = kkShaderName, asShader=True)
+    kkShader.outColor.set(1,1,1)
+    kkSg = sets(renderable=1,noSurfaceShader=1,empty=1,
+                name= kkShader + '_SG')
+    connectAttr( kkShaderName + ".outColor",kkSg + ".surfaceShader",force=1)
+    sets( kkSg, edit=1, forceElement= kkGroupName )
 
     kkCapture() # do the playblast
 
@@ -244,7 +253,8 @@ def kkBlast():
 
     # And finally, delete the temp text node, and its shaders
     delete(kkGroupName)
-    mel.eval('MLdeleteUnused')
+    delete (kkShaderName)
+    delete (kkSg)
     
 def kkMakeText(x,y):
     """
@@ -289,15 +299,6 @@ def kkCreateText():
         move( kkItem, [ kkPosnX, kkPositionY, 0]) 
         parent(kkItem, kkGroupName)
 
-    # create and assign a white surface shader to the geo to make it visible
-    kkShaderName = "%s_shader" % (kkGroupName)
-    kkShader = shadingNode('surfaceShader', n = kkShaderName, asShader=True)
-    kkShader.outColor.set(1,1,1)
-    kkSg = sets(renderable=1,noSurfaceShader=1,empty=1,
-                name= kkShader + '_SG')
-    connectAttr( kkShaderName + ".outColor",kkSg + ".surfaceShader",force=1)
-    sets( kkSg, edit=1, forceElement= kkGroupName )
-
     return kkPutOnCamera(kkGroupName)
 
 
@@ -326,13 +327,13 @@ def kkPutOnCamera(x):
                    "float $a = 2 * atan($ratio); // angle in radians\n" +
                    "$a = rad_to_deg($a); // angle in degrees\n" +
                    "$a = $a/2;\n" +
-                   "float $z = abs(kkTextBlock_GRP.translateZ);\n" +
+                   "float $z = abs(%s.translateZ);\n" +
                    "float $kkTan = tand($a);\n" +
                    "$kkScale = $kkTan * $z;\n" +
                    "$kkScale = $kkScale * 2;\n" +
-                   "kkTextBlock_GRP.scaleX = $kkScale;\n" +
-                   "kkTextBlock_GRP.scaleY = $kkScale;\n") %
-                   (kkWhatCamera, kkWhatCamera))
+                   "%s.scaleX = $kkScale;\n" +
+                   "%s.scaleY = $kkScale;\n") %
+                   (kkWhatCamera, kkWhatCamera, x, x, x))
 
     expression( n = 'kkText_exp', s= kkExpString )
     move ('kkTextBlock_GRP', [0,0,kkNearClip], ls = True)
