@@ -1,0 +1,51 @@
+import pymel.core as pm
+
+def kkForm(kName,kTrans, kScale, kRot= (0,0,0)):
+    pm.xform(kName[0], t=kTrans, ro=kRot, s=kScale) 
+# head
+kkHead = pm.polySphere(n = 'headuza')
+kkForm(kkHead, (0,1.315,0), (0.606,0.606,0.606))
+
+# torso create
+kkTorso = pm.polyCube(n='torsuzo', sh=3)
+kkForm(kkTorso, (0,0,0), (1,1.469,0.523))
+
+# collar create
+kkCollarMid = pm.polyCylinder(n = 'collarMiduzo')
+kkCollarMain = pm.polyCylinder(n= 'collarMainuzo')
+
+# collar move
+kkForm(kkCollarMid, (0,0.973,0), (0.917,0.203,0.676))
+kkForm(kkCollarMain, (0,0.973,0), (1.098, 0.116, 0.809))
+
+# hips
+kkHips = pm.polyCylinder(n = 'hipsuzas')
+kkForm(kkHips, (0,-0.835, 0),(0.696,0.116,0.44))
+kkMidHips = pm.polyCylinder(n = 'midHipsuzas')
+kkForm(kkMidHips, (0,-0.876, 0),(0.335,0.135,0.335), (0,0,90))
+kkHipLeft = pm.polySphere(n = 'hipLeftuza')
+kkForm(kkHipLeft, (0.333,-0.923,0),(0.195,0.195,0.195))
+kkHipRight = pm.polySphere(n = 'hipRightuza')
+kkForm(kkHipRight, (-0.333,-0.923,0),(0.195,0.195,0.195))
+
+# left arm
+kkArmLeft = pm.polyCylinder(n = 'leftArmuzo')
+kkForm(kkArmLeft, (0.998,0.092,0),(0.194,0.645,0.194),(0,0,20.697))
+kkElbowLeft = pm.polyCylinder(n = 'leftElbowuzo')
+kkForm(kkElbowLeft, (1.081,-0.126,0),(0.274,0.274,0.274),(0,0,20.697))
+kkElbowLeftMid = pm.polyCylinder(n = 'leftMidElbowuzo')
+kkForm(kkElbowLeftMid, (1.081,-0.126,0),(0.335,0.135,0.335),(0,0,20.697))
+
+# right arm
+kkArmRight = pm.polyCylinder(n = 'RightArmuzo')
+kkForm(kkArmRight, (-0.998,0.092,0),(0.194,0.645,0.194),(0,0,-20.697))
+kkElbowRight = pm.polyCylinder(n = 'RightElbowuzo')
+kkForm(kkElbowRight, (-1.081,-0.126,0),(0.274,0.274,0.274),(0,0,-20.697))
+kkElbowRightMid = pm.polyCylinder(n = 'RightMidElbowuzo')
+kkForm(kkElbowRightMid, (-1.081,-0.126,0),(0.335,0.135,0.335),(0,0,-20.697))
+
+# legs
+kkLegLeft = pm.polyCylinder(n = 'leftLeguza')
+kkForm(kkLegLeft, (0.333,-1.304, 0), (0.148,0.322,0.148))
+kkLegRight = pm.polyCylinder(n = 'RightLeguza')
+kkForm(kkLegRight, (-0.333,-1.304, 0), (0.148,0.322,0.148))
